@@ -71,12 +71,13 @@ while read -d "" event; do
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
 		clear
+		#run the command
 		eval "$command $absoluteFilePath"
-			
 	else
+		#placeholder
 		:
 	fi
 
 	
-
+#ignore changes in hidden dirs such as .git
 done < <(fswatch -r -0 -E "$DIR_WATCHING" -e "/\.." )
