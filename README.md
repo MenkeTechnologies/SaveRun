@@ -4,7 +4,6 @@
 
 brew install fswatch on macOs
 
-instructions for running scripts are in comments at beginning
 
 # For interpreted languages such as Perl, Ruby, Python etc.
 cd into directory
@@ -21,3 +20,4 @@ change M.main to Module name and main function as needed
 
 # add quotes to filenames with spaces
 
+Instructions for running scripts are also in comments at beginning
