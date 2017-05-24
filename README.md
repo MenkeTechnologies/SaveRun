@@ -8,7 +8,14 @@ brew install fswatch on macOs
 # For interpreted languages such as Perl, Ruby, Python
 Ruby:
 1. cd into directory
-2. bash runOnSaveInterpreted.sh . test.rb ruby
+2. bash runOnSaveInterpreted.sh . ruby test.rb *.rb
+
+usage:
+	script $1=dir_to_watch $2=command_to_run $3=main_file $4=files_to_watch
+	-h help
+	-c clear screen
+	-d "delim" use custom delimiter
+	-c and -d may not be used together.
 
 # For compiled languages such as C, Rust and Elixir
 C:
@@ -30,9 +37,9 @@ Instructions for running scripts are also in comments at beginning of scripts.
 
 Scripts can also be run from anywhere, so do not have to cd into directory, just make sure paths, whether absolute or relative, are correct.
 
-options
+usage:
+	script $1=dir_to_watch $2=command_to_run $3=main_file $4=files_to_watch
 	-h help
 	-c clear screen
 	-d "delim" use custom delimiter
 	-c and -d may not be used together.
-
