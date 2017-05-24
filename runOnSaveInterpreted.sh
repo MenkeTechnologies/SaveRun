@@ -98,17 +98,22 @@ if [[ ! -d $absoluteWatchingDirectory ]]; then
 	exit 1
 fi
 
-which "$command" >/dev/null
-if [[ $? != 0 ]]; then
-	echo "Command to run doesn't exist." >&2
-	exit 1
-fi
-
 shift 3;
 declare -a files_ary
 for i in "$@"; do
 	files_ary+=( $(createAbsolutePathFromFile "$i") )
 done
+
+set $command
+exe="$1"
+shift
+which "$exe" >/dev/null
+if [[ $? != 0 ]]; then
+	echo "Command to run doesn't exist." >&2
+	exit 1
+fi
+
+
 
 #confirmation output
 echo -e "Watching for changes in main file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$absoluteWatchingDirectory'\e[0m"
@@ -122,7 +127,7 @@ if (( ${#files_ary[@]} > 0 )); then
 	echo
 
 fi
-echo -e "Interpreting main file \e[1m'`basename $absoluteFilePath`'\e[0m with \e[1m'`which $command`'\e[0m"
+echo -e "Interpreting main file \e[1m'`basename $absoluteFilePath`'\e[0m with \e[1m'`which $exe` $@'\e[0m"
 
 echo -e "Ctrl-C to terminate..."
 
