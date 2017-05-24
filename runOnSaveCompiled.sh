@@ -71,7 +71,6 @@ fi
 
 ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
-
 absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
 
 #sanity checks
@@ -84,8 +83,8 @@ if [[ ! -d $ABSOLUTE_PATH ]]; then
 	echo "Path doesn't exist."
 	exit 1
 fi
-
-which "$compilingCommand" >/dev/null
+set $compilingCommand
+which "$1" >/dev/null
 
 if [[ $? != 0 ]]; then
 	echo "Command to run doesn't exist."
@@ -95,10 +94,10 @@ fi
 
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
-echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
+echo -e "Compiling with \e[1m'`which $1`'\e[0m"
 echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
 
-if [[ ! -z $5 ]]; then
+if [[ ! -z $executingCommand ]]; then
 	echo -e "with \e[1m'`which $executingCommand`'\e[0m"
 else
 	echo -e "as \e[1m'./$outputFileName'\e[0m in \e[1m`pwd`\e[0m"
