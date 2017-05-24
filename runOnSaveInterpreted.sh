@@ -2,11 +2,10 @@
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
 #example usage = bash "runOnSaveInterpreted.sh" . "test.rb" ruby
-DIR_WATCHING="$1"
-file_to_watch="$2"
-command="$3"
 
-#set -x
+clearScreen=false
+
+
 
 trap 'echo;echo Bye `whoami`' INT
 
@@ -17,13 +16,31 @@ usage:
 	script $1=dir_to_watch $2=file_to_watch $3=command_to_run
 Endofmessage
 	printf "\E[0m"
+	exit
 }
 
 if [[ $# < 3 ]]; then
 	usage
-	exit
+	
 fi
 
+optstring=hc
+while getopts $optstring opt
+do
+  case $opt in
+  	h) usage >&2; break;;
+  	c) clearScreen=true; break;;
+    *) usage >&2;;
+esac
+done
+
+shift $((OPTIND-1))
+
+DIR_WATCHING="$1"
+file_to_watch="$2"
+command="$3"
+
+echo "the dir is " $DIR_WATCHING
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
@@ -56,6 +73,10 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
+
+
+
+
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Interpreting with \e[1m'`which $command`'\e[0m"
@@ -70,9 +91,22 @@ while read -d "" event; do
 
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
-		clear
+
+		if [[ $clearScreen = true ]]; then
+		    	clear
+		fi
+
 		#run the command
 		eval "$command $absoluteFilePath"
+
+		if [[ $clearScreen = true ]]; then
+		    	:
+		else
+			for i in $(seq `tput cols`); do
+				echo -ne "-"
+			done
+			echo
+		fi
 	else
 		#placeholder
 		:
