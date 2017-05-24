@@ -27,7 +27,7 @@ Endofmessage
 }
 
 if [[ $# < 4 ]]; then
-	usage
+	usage >&2
 	exit
 fi
 
