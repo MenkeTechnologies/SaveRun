@@ -20,6 +20,14 @@ fi
 
 DIR_WATCHING="$1"
 command="$3"
+
+path=$1
+
+CONVERTPATH="$(pwd $path)/$(basename $path)"
+
+echo -e "Watching for changes of file \e[1m'$2'\e[0m in \e[1m'$CONVERTPATH'\e[0m"
+echo -e "Executing with \e[1m'`which $3`'\e[0m"
+
 while read -d "" event; do
 	
 	fileName=`basename $event`
