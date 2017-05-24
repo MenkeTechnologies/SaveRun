@@ -15,7 +15,7 @@ usage:
 
 	-h help
 	-c clear screen
-	-d "delim" use custom delimiter
+	-d "delim" use custom delimiter.  Default is "-".
 	-c and -d may not be used together.
 
 	4th parameter is optional
@@ -41,11 +41,11 @@ Java:
 
 usage:
 	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
-	
+
 	-h help
 	-m optional execution command
 	-c clear screen
-	-d "delim" use custom delimiter
+	-d "delim" use custom delimiter.  Default is "-".
 	-c and -d may not be used together.
 
 

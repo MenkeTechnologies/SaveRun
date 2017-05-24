@@ -21,7 +21,7 @@ usage:
 	-h help
 	-m optional execution command
 	-c clear screen
-	-d "delim" use custom delimiter
+	-d "delim" use custom delimiter.  Default is "-".
 	-c and -d may not be used together.
 Endofmessage
 	printf "\E[0m"
