@@ -3,13 +3,13 @@
 
 #example usage = cd into directory and run bash runOnSaveCompiled.sh . rust1.rs rustc rust1
 #example usage for elixir 
-# cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
+# cd into directory and run bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 # todo compile *.c etc
 
 clearScreen=false
 delim=""
 
-# set -x
+
 
 trap 'echo;echo Bye `whoami`' INT
 
@@ -57,12 +57,12 @@ createAbsolutePathFromDirectory(){
 
 }
 
-if [[ $# < 4 ]]; then
+if (( $# < 4 )); then
 	usage >&2
 	
 fi
 
-optstring=hcd:
+optstring=hcd:m:
 while getopts $optstring opt
 do
 	case $opt in
@@ -91,12 +91,13 @@ outputFileName="$2"
 compilingCommand="$3"
 
 shift 3;
+declare -a files_ary
+for i in "$@"; do
+	files_ary+=( $(createAbsolutePathFromFile "$i") )
+done
 
-files_array="$@"
 
-file_to_watch="${files_array[0]}"
-
-absoluteFilePath="$(createAbsolutePathFromFile ${file_to_watch[0]})"
+absoluteFilePath="${files_ary[0]}"
 absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
@@ -109,6 +110,7 @@ if [[ ! -d $absoluteWatchingDirectory ]]; then
 	echo "Path doesn't exist." >&2
 	exit 1
 fi
+
 set $compilingCommand
 which "$1" >/dev/null
 
@@ -119,11 +121,24 @@ fi
 
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$absoluteWatchingDirectory'\e[0m"
-echo -e "Compiling with \e[1m'`which $1`'\e[0m"
-echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
+if (( ${#files_ary[@]} > 1 )); then
+	echo -n "Also watching for changes in "
+		for i in ${files_ary[@]}; do
+			if [[ "$i" != "$absoluteFilePath" ]]; then
+				echo -en "\e[1m`basename $i`\e[0m, "
+			fi
+		done
+	printf "\n"
+fi
+echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m and executing file \e[1m'$outputFileName'\e[0m";
+
+
 
 if [[ ! -z $executingCommand ]]; then
-	echo -e "with \e[1m'`which $executingCommand`'\e[0m"
+	set $executingCommand
+	exe="$1"
+	shift
+	echo -e "with \e[1m'`which $exe` $@'\e[0m"
 else
 	echo -e "as \e[1m'./$outputFileName'\e[0m in \e[1m`pwd`\e[0m"
 fi
@@ -132,19 +147,26 @@ echo -e "Ctrl-C to terminate..."
 
 while read -d "" event; do
 	
-	fileName=`basename $event`
-	watchingFile=`basename $absoluteFilePath`
+	fileName="$event"
+	watchingFile="$absoluteFilePath"
+	go=false
+
+	string_of_files=""
+
+	for i in ${files_ary[@]}; do
+		string_of_files="$string_of_files $i"
+		if [[ "$i" == "$fileName" ]]; then
+			go=true
+		fi
+	done
 
 	#ignored the intermediate files that are changing
 
-	for i in ${files_array[@]}; do
-		if [[ $fileName == $watchingFile ]]; then
-			changeOccured=true
-		fi
+	if [[ "$watchingFile" == "$fileName" ]]; then
+		go=true
+	fi
 
-	done
-
-	if [[ ! -z $changeOccured ]]; then
+	if [[ "$go" == true ]]; then
 		
 		if [[ $clearScreen = true ]]; then
 		    	clear
@@ -155,12 +177,9 @@ while read -d "" event; do
 		#grab error output
 		#the compiled output file is created in the pwd
 
-		
 
-		exit
+		output="$($compilingCommand $string_of_files 2>&1)"
 
-		output="$($compilingCommand $absoluteFilePath 2>&1)"
-		
 
 		if [[ $? = 0 ]]; then
 		
@@ -169,10 +188,17 @@ while read -d "" event; do
 		    	./$outputFileName && rm $outputFileName
 		    else
 		    	#using custom command to execute file
+
 		    	eval "$executingCommand $outputFileName"
 				if [[ -f "$outputFileName" ]];then
-					#get rid of old binary
+					#get rid of old binary if its a file
 					rm "$outputFileName"
+
+
+				fi
+
+				if [[ "$executingCommand" == "java" ]]; then
+						rm *.class
 				fi
 
 		    fi 
@@ -186,10 +212,12 @@ while read -d "" event; do
 		if [[ $clearScreen = true ]]; then
 		    	:
 		else
+			printf "\e[1m"
+			date
 			for i in $(seq `tput cols`); do
 				echo -ne "$delim"
 			done
-			echo
+			printf "\e[0m"
 		fi
 			
 	else
@@ -198,4 +226,4 @@ while read -d "" event; do
 
 	
 #ignore changes in hidden dirs such as .git
-done < <(fswatch -r -0 -E "$DIR_WATCHING" -e "/\.." )
+done < <(fswatch -r -0 -E "$absoluteWatchingDirectory" -e "/\.." )

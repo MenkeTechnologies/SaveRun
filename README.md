@@ -31,16 +31,19 @@ Rust:
 
 Elixir:
 1. cd into directory
-2. bash runOnSaveCompiled.sh -m 'elixir -e' . M.main elixirc untitled.ex 
+2. bash runOnSaveCompiled.sh -m 'elixir -e' . M.main elixirc *.ex 
 	change M.main to Module name and main function as needed
 
 Java:
 1. cd into directory
 2. bash runOnSaveCompiled.sh -m java . sample.Main javac *.java 
-	change M.main to Module name and main function as needed
+
+With Packages:
+1. cd into directory above packages
+bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main javac package_name/*.java
 
 usage:
-	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
+	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=filesToCompileAndWatch
 
 	-h help
 	-m optional execution command
