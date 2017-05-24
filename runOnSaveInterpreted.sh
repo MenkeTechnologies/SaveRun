@@ -6,7 +6,6 @@
 clearScreen=false
 delim=""
 
-
 trap 'echo;echo Bye `whoami`' INT
 
 usage(){
@@ -55,7 +54,6 @@ DIR_WATCHING="$1"
 file_to_watch="$2"
 command="$3"
 
-
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
 	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
@@ -66,7 +64,6 @@ fi
 
 ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
-
 absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
 
 #sanity checks
@@ -74,7 +71,6 @@ if [[ ! -f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist."
 	exit 1
 fi
-
 
 if [[ ! -d $ABSOLUTE_PATH ]]; then
 	echo "Path doesn't exist."
@@ -87,14 +83,9 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
-
-
-
-
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Interpreting with \e[1m'`which $command`'\e[0m"
-
 
 echo -e "Ctrl-C to terminate..."
 

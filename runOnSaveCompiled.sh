@@ -46,7 +46,6 @@ if [[ -z "$delim" ]]; then
 	delim="-"
 fi
 
-
 if [[ "$dflag" = true ]]; then
 	if [[ "$cflag" = true  ]]; then
 		usage >&2
@@ -90,7 +89,6 @@ if [[ $? != 0 ]]; then
 	echo "Command to run doesn't exist."
 	exit 1
 fi
-
 
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
