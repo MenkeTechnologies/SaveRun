@@ -21,9 +21,26 @@ fi
 DIR_WATCHING="$1"
 command="$3"
 
-path=$1
+path=$DIR_WATCHING
 
 CONVERTPATH="$(pwd $path)/$(basename $path)"
+
+if [[ ! -d $CONVERTPATH ]]; then
+	echo "Path doesn't exist."
+	exit 1
+fi
+
+
+if [[ ! -f $2 ]]; then
+	echo "File doesn't exist."
+	exit 1
+fi
+
+which "$command"
+if [[ $? = 0]]; then
+	echo "Command to run doesn't exist."
+	exit 1
+fi
 
 echo -e "Watching for changes of file \e[1m'$2'\e[0m in \e[1m'$CONVERTPATH'\e[0m"
 echo -e "Executing with \e[1m'`which $3`'\e[0m"
