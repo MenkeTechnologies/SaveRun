@@ -27,6 +27,37 @@ Endofmessage
 	exit 1
 }
 
+createAbsolutePathFromFile(){
+	local relativePath="$1"
+
+
+	if [[ ${relativePath:0:1} != '/' && ${relativePath:0:1} != '~' ]]; then
+	#relative path
+		CONVERTPATH="$(pwd)/$relativePath"
+		
+		ABSOLUTE_PATH=$(cd ${CONVERTPATH%/*} && pwd)/`basename $relativePath`
+	elif [[ ${relativePath:0:1} == '~' ]]; then
+
+		ABSOLUTE_PATH=$(cd ${CONVERTPATH%/*} && pwd)/`basename $relativePath`
+	else
+		#absolute path
+		ABSOLUTE_PATH="$1"
+	fi
+
+		echo $ABSOLUTE_PATH
+
+}
+
+createAbsolutePathFromDirectory(){
+	local relativePath="$1"
+
+
+	absPath=$(cd $relativePath && pwd)
+
+	echo "$absPath"
+
+}
+
 if [[ $# < 4 ]]; then
 	usage >&2
 	

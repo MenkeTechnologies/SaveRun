@@ -11,11 +11,13 @@ Ruby:
 2. bash runOnSaveInterpreted.sh . ruby test.rb *.rb
 
 usage:
-	script $1=dir_to_watch $2=command_to_run $3=main_file $4=files_to_watch
+	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
 	-h help
 	-c clear screen
 	-d "delim" use custom delimiter
 	-c and -d may not be used together.
+
+	4th parameter is optional
 
 # For compiled languages such as C, Rust and Elixir
 C:
