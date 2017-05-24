@@ -31,15 +31,20 @@ fi
 
 ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
-if [[ ! -d $ABSOLUTE_PATH ]]; then
-	echo "Path doesn't exist."
-	exit 1
-fi
 
 absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
+#sanity checks
+
+
 
 if [[ ! -f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist."
+	exit 1
+fi
+
+
+if [[ ! -d $ABSOLUTE_PATH ]]; then
+	echo "Path doesn't exist."
 	exit 1
 fi
 
@@ -49,9 +54,12 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
-
+#confirmation output
 echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Executing with \e[1m'`which $command`'\e[0m"
+
+
+echo -e "Ctrl-C to terminate..."
 
 while read -d "" event; do
 	
@@ -63,10 +71,8 @@ while read -d "" event; do
 		clear
 		eval "$command $file_to_watch"
 			
-		# echo "match @ $fileName"
 	else
 		:
-		# echo "no match @ $fileName"
 	fi
 
 	
