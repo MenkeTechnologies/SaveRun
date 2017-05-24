@@ -23,7 +23,7 @@ usage:
 # For compiled languages such as C, Rust and Elixir
 C:
 1. cd into directory
-2. bash runOnSaveCompiled.sh . a.out gcc main.c *.c
+2. bash runOnSaveCompiled.sh . a.out gcc *.c
 
 Rust:
 1. cd into directory
@@ -36,7 +36,7 @@ Elixir:
 
 Java:
 1. cd into directory
-2. bash runOnSaveCompiled.sh -m java . sample.Main javac main.java *.java 
+2. bash runOnSaveCompiled.sh -m java . sample.Main javac *.java 
 	change M.main to Module name and main function as needed
 
 usage:
