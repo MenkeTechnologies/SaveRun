@@ -31,7 +31,6 @@ Endofmessage
 createAbsolutePathFromFile(){
 	local relativePath="$1"
 
-
 	if [[ ${relativePath:0:1} != '/' && ${relativePath:0:1} != '~' ]]; then
 	#relative path
 		CONVERTPATH="$(pwd)/$relativePath"
@@ -51,7 +50,6 @@ createAbsolutePathFromFile(){
 
 createAbsolutePathFromDirectory(){
 	local relativePath="$1"
-
 
 	absPath=$(cd $relativePath && pwd)
 
@@ -97,7 +95,6 @@ shift 3;
 files_array="$@"
 
 file_to_watch="${files_array[0]}"
-
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
