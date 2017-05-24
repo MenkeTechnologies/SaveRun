@@ -28,7 +28,7 @@ Endofmessage
 
 if [[ $# < 4 ]]; then
 	usage >&2
-	exit
+	
 fi
 
 optstring=hcd:
