@@ -40,7 +40,7 @@ Java:
 
 With Packages:
 1. cd into directory above packages
-bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main javac package_name/*.java
+2. bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main_Class_Name javac package_name/*.java
 
 usage:
 	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=filesToCompileAndWatch
