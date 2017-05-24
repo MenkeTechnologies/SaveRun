@@ -17,12 +17,13 @@ usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
 usage:
-	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
+	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=filesToCompileAndWatch
 	-h help
 	-m optional execution command
 	-c clear screen
 	-d "delim" use custom delimiter.  Default is "-".
 	-c and -d may not be used together.
+
 Endofmessage
 	printf "\E[0m"
 	exit 1
