@@ -12,6 +12,7 @@ Ruby:
 
 usage:
 	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
+
 	-h help
 	-c clear screen
 	-d "delim" use custom delimiter
@@ -40,6 +41,7 @@ Java:
 
 usage:
 	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
+	
 	-h help
 	-m optional execution command
 	-c clear screen
