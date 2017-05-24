@@ -14,9 +14,13 @@ usage(){
 	cat <<\Endofmessage
 usage:
 	script $1=dir_to_watch $2=file_to_watch $3=command_to_run
+	-h help
+	-c clear screen
+	-d "delim" use custom delimiter
+	-c and -d may not be used together.
 Endofmessage
 	printf "\E[0m"
-	exit
+	exit 1
 }
 
 if [[ $# < 3 ]]; then
@@ -28,15 +32,21 @@ optstring=hcd:
 while getopts $optstring opt
 do
 	case $opt in
-	  	h) usage >&2; break;;
-		d) delim="$OPTARG";;
-	  	c) clearScreen=true; break;;
+	  	h) usage >&2; hflag=true; break;;
+		d) delim="$OPTARG"; dflag=true;;
+	  	c) clearScreen=true; cflag=true;;
 	    *) usage >&2;;
 	esac
 done
 
 if [[ -z "$delim" ]]; then
 	delim="-"
+fi
+
+if [[ "$dflag" = true ]]; then
+	if [[ "$cflag" = true  ]]; then
+		usage >&2
+	fi
 fi
 
 shift $((OPTIND-1))
