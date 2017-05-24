@@ -4,7 +4,7 @@
 #example usage = bash "runOnSaveInterpreted.sh" . "test.rb" ruby
 
 clearScreen=false
-
+delim=""
 
 
 trap 'echo;echo Bye `whoami`' INT
@@ -24,15 +24,20 @@ if [[ $# < 3 ]]; then
 	
 fi
 
-optstring=hc
+optstring=hcd:
 while getopts $optstring opt
 do
-  case $opt in
-  	h) usage >&2; break;;
-  	c) clearScreen=true; break;;
-    *) usage >&2;;
-esac
+	case $opt in
+	  	h) usage >&2; break;;
+		d) delim="$OPTARG";;
+	  	c) clearScreen=true; break;;
+	    *) usage >&2;;
+	esac
 done
+
+if [[ -z "$delim" ]]; then
+	delim="-"
+fi
 
 shift $((OPTIND-1))
 
@@ -40,7 +45,6 @@ DIR_WATCHING="$1"
 file_to_watch="$2"
 command="$3"
 
-echo "the dir is " $DIR_WATCHING
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
@@ -103,7 +107,7 @@ while read -d "" event; do
 		    	:
 		else
 			for i in $(seq `tput cols`); do
-				echo -ne "-"
+				echo -ne "$delim"
 			done
 			echo
 		fi

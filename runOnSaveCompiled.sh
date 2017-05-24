@@ -6,6 +6,7 @@
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 
 clearScreen=false
+delim=""
 
 # set -x
 
@@ -25,15 +26,20 @@ if [[ $# < 4 ]]; then
 	exit
 fi
 
-optstring=hc
+optstring=hcd:
 while getopts $optstring opt
 do
-  case $opt in
-  	h) usage >&2; break;;
-  	c) clearScreen=true; break;;
-    *) usage >&2;;
-esac
+	case $opt in
+	  	h) usage >&2; break;;
+		d) delim="$OPTARG";;
+	  	c) clearScreen=true; break;;
+	    *) usage >&2;;
+	esac
 done
+
+if [[ -z "$delim" ]]; then
+	delim="-"
+fi
 
 shift $((OPTIND-1))
 
@@ -132,7 +138,7 @@ while read -d "" event; do
 		    	:
 		else
 			for i in $(seq `tput cols`); do
-				echo -ne "-"
+				echo -ne "$delim"
 			done
 			echo
 		fi
