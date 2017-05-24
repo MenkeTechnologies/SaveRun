@@ -2,7 +2,9 @@
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
 #example usage = bash "$SCRIPTS/watchServiceFSWatchRustCompile.sh" . "untitled.rs"
-
+DIR_WATCHING="$1"
+file_to_watch="$2"
+command="$3"
 
 usage(){
 #here doc for printing multiline
@@ -18,42 +20,48 @@ if [[ $# < 3 ]]; then
 	exit
 fi
 
-DIR_WATCHING="$1"
-command="$3"
 
-path=$DIR_WATCHING
+if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
+	#relative path
+	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
+else
+	#absolute path
+	CONVERTPATH="$DIR_WATCHING"
+fi
 
-CONVERTPATH="$(pwd $path)/$(basename $path)"
+ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
-if [[ ! -d $CONVERTPATH ]]; then
+if [[ ! -d $ABSOLUTE_PATH ]]; then
 	echo "Path doesn't exist."
 	exit 1
 fi
 
+absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
 
-if [[ ! -f $2 ]]; then
+if [[ ! -f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist."
 	exit 1
 fi
 
-which "$command"
-if [[ $? = 0]]; then
+which "$command" >/dev/null
+if [[ $? != 0 ]]; then
 	echo "Command to run doesn't exist."
 	exit 1
 fi
 
-echo -e "Watching for changes of file \e[1m'$2'\e[0m in \e[1m'$CONVERTPATH'\e[0m"
-echo -e "Executing with \e[1m'`which $3`'\e[0m"
+
+echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
+echo -e "Executing with \e[1m'`which $command`'\e[0m"
 
 while read -d "" event; do
 	
 	fileName=`basename $event`
-	watchingFile=`basename $2`
+	watchingFile=`basename $file_to_watch`
 
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
 		clear
-		eval "$command $fileName"
+		eval "$command $file_to_watch"
 			
 		# echo "match @ $fileName"
 	else
