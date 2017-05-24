@@ -6,6 +6,9 @@ DIR_WATCHING="$1"
 file_to_watch="$2"
 command="$3"
 
+
+trap 'echo;echo Bye `whoami`' INT
+
 usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
@@ -64,7 +67,7 @@ echo -e "Ctrl-C to terminate..."
 while read -d "" event; do
 	
 	fileName=`basename $event`
-	watchingFile=`basename $file_to_watch`
+	watchingFile=`basename $absoluteFilePath`
 
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then

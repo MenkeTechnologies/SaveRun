@@ -10,6 +10,8 @@ compilingCommand="$3"
 outputFileName="$4"
 executingCommand="$5"
 
+trap 'echo;echo Bye `whoami`' INT
+
 usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
@@ -72,7 +74,7 @@ echo -e "Ctrl-C to terminate..."
 while read -d "" event; do
 	
 	fileName=`basename $event`
-	watchingFile=`basename $2`
+	watchingFile=`basename $absoluteFilePath`
 
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
