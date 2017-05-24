@@ -10,6 +10,14 @@ Ruby:
 1. cd into directory
 2. bash runOnSaveInterpreted.sh . ruby test.rb *.rb
 
+Perl:
+1. cd into directory
+2. bash runOnSaveInterpreted.sh . perl test.pl
+
+Node:
+1. cd into directory
+2. bash runOnSaveCompiled.sh . node week5.js *.js
+
 usage:
 	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
 
@@ -41,6 +49,7 @@ Java:
 With Packages:
 1. cd into directory above packages
 2. bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main_Class_Name javac package_name/*.java
+
 
 usage:
 	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=filesToCompileAndWatch
