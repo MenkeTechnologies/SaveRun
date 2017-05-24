@@ -10,8 +10,6 @@
 clearScreen=false
 delim=""
 
-
-
 trap 'echo;echo Bye `whoami`' INT
 
 usage(){
@@ -98,7 +96,6 @@ for i in "$@"; do
 	files_ary+=( $(createAbsolutePathFromFile "$i") )
 done
 
-
 absoluteFilePath="${files_ary[0]}"
 absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
@@ -133,8 +130,6 @@ if (( ${#files_ary[@]} > 1 )); then
 	printf "\n"
 fi
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m and executing file \e[1m'$outputFileName'\e[0m";
-
-
 
 if [[ ! -z $executingCommand ]]; then
 	set $executingCommand
@@ -179,9 +174,7 @@ while read -d "" event; do
 		#grab error output
 		#the compiled output file is created in the pwd
 
-
 		output="$($compilingCommand $string_of_files 2>&1)"
-
 
 		if [[ $? = 0 ]]; then
 		
@@ -195,7 +188,6 @@ while read -d "" event; do
 				if [[ -f "$outputFileName" ]];then
 					#get rid of old binary if its a file
 					rm "$outputFileName"
-
 
 				fi
 
