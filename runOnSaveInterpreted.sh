@@ -8,9 +8,6 @@ delim=""
 
 trap 'echo;echo Bye `whoami`' INT
 
-
-
-
 usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
@@ -27,7 +24,6 @@ Endofmessage
 
 createAbsolutePathFromFile(){
 	local relativePath="$1"
-
 
 	if [[ ${relativePath:0:1} != '/' && ${relativePath:0:1} != '~' ]]; then
 	#relative path
@@ -48,7 +44,6 @@ createAbsolutePathFromFile(){
 
 createAbsolutePathFromDirectory(){
 	local relativePath="$1"
-
 
 	absPath=$(cd $relativePath && pwd)
 
@@ -86,7 +81,6 @@ shift $((OPTIND-1))
 DIR_WATCHING="$1"
 file_to_watch="$3"
 command="$2"
-
 
 absoluteFilePath="$(createAbsolutePathFromFile $file_to_watch)"
 absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
@@ -145,7 +139,6 @@ while read -d "" event; do
 	if [[ "$watchingFile" == "$fileName" ]]; then
 		go=true
 	fi
-
 
 	#ignored the intermediate files that are changing
 	if [[ "$go" == true ]]; then
