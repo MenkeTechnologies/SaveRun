@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
-#example usage = cd into directory and run bash "$SCRIPTS/runOnSaveCompiled.sh" . "untitled.rs" "rustc" untitled
+#example usage = cd into directory and run bash runOnSaveCompiled.sh . rust1.rs rustc rust1
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
-DIR_WATCHING="$1"
-file_to_watch="$2"
-compilingCommand="$3"
-outputFileName="$4"
-executingCommand="$5"
 
-#set -x
+clearScreen=false
+
+# set -x
 
 trap 'echo;echo Bye `whoami`' INT
 
@@ -28,6 +25,23 @@ if [[ $# < 4 ]]; then
 	exit
 fi
 
+optstring=hc
+while getopts $optstring opt
+do
+  case $opt in
+  	h) usage >&2; break;;
+  	c) clearScreen=true; break;;
+    *) usage >&2;;
+esac
+done
+
+shift $((OPTIND-1))
+
+DIR_WATCHING="$1"
+file_to_watch="$2"
+compilingCommand="$3"
+outputFileName="$4"
+executingCommand="$5"
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
@@ -60,6 +74,7 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
+
 #confirmation output
 echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
@@ -80,13 +95,20 @@ while read -d "" event; do
 
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
+		
+		if [[ $clearScreen = true ]]; then
+		    	clear
+		else
+				:
+		fi
+
 		#grab error output
 		#the compiled output file is created in the pwd
 		output="$($compilingCommand $absoluteFilePath 2>&1)"
+		
 
 		if [[ $? = 0 ]]; then
-			#clear screen to maintain 
-		    clear
+		
 		    #execute compiled file with standard execution and then delete it
 		    if [[ -z "$executingCommand" ]]; then
 		    	./$outputFileName && rm $outputFileName
@@ -101,9 +123,18 @@ while read -d "" event; do
 		    fi 
 
 		else
-			#we have and error in compilation so show the error
-		    clear
-		    echo "$output"
+		#we have and error in compilation
+
+		echo "$output"
+		fi
+
+		if [[ $clearScreen = true ]]; then
+		    	:
+		else
+			for i in $(seq `tput cols`); do
+				echo -ne "-"
+			done
+			echo
 		fi
 			
 	else
