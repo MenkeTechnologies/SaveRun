@@ -10,6 +10,8 @@ compilingCommand="$3"
 outputFileName="$4"
 executingCommand="$5"
 
+#set -x
+
 trap 'echo;echo Bye `whoami`' INT
 
 usage(){
@@ -66,7 +68,7 @@ echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
 if [[ ! -z $5 ]]; then
 	echo -e "with \e[1m'`which $executingCommand`'\e[0m"
 else
-	echo -e "as \e[1m'./$outputFileName'\e[0m"
+	echo -e "as \e[1m'./$outputFileName'\e[0m in \e[1m`pwd`\e[0m"
 fi
 
 echo -e "Ctrl-C to terminate..."
@@ -79,20 +81,22 @@ while read -d "" event; do
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
 		#grab error output
+		#the compiled output file is created in the pwd
 		output="$($compilingCommand $absoluteFilePath 2>&1)"
 
 		if [[ $? = 0 ]]; then
 			#clear screen to maintain 
 		    clear
-		    #execute compiled file and then delete it
-		    if [[ -z "$5" ]]; then
+		    #execute compiled file with standard execution and then delete it
+		    if [[ -z "$executingCommand" ]]; then
 		    	./$outputFileName && rm $outputFileName
 		    else
-		    	
-		    	eval "$5 $outputFileName"
-			if [[ -f "$outputFileName" ]];then
-				rm "$outputFileName"
-			fi
+		    	#using custom command to execute file
+		    	eval "$executingCommand $outputFileName"
+				if [[ -f "$outputFileName" ]];then
+					#get rid of old binary
+					rm "$outputFileName"
+				fi
 
 		    fi 
 
@@ -107,5 +111,5 @@ while read -d "" event; do
 	fi
 
 	
-
+#ignore changes in hidden dirs such as .git
 done < <(fswatch -r -0 -E "$DIR_WATCHING" -e "/\.." )
