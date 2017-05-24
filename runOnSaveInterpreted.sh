@@ -6,6 +6,7 @@ DIR_WATCHING="$1"
 file_to_watch="$2"
 command="$3"
 
+#set -x
 
 trap 'echo;echo Bye `whoami`' INT
 
@@ -36,10 +37,8 @@ ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
 
 absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
+
 #sanity checks
-
-
-
 if [[ ! -f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist."
 	exit 1
@@ -58,8 +57,8 @@ if [[ $? != 0 ]]; then
 fi
 
 #confirmation output
-echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
-echo -e "Executing with \e[1m'`which $command`'\e[0m"
+echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
+echo -e "Interpreting with \e[1m'`which $command`'\e[0m"
 
 
 echo -e "Ctrl-C to terminate..."
@@ -72,7 +71,7 @@ while read -d "" event; do
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
 		clear
-		eval "$command $file_to_watch"
+		eval "$command $absoluteFilePath"
 			
 	else
 		:

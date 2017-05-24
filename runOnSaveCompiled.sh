@@ -59,7 +59,7 @@ if [[ $? != 0 ]]; then
 fi
 
 #confirmation output
-echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
+echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
 echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
 
@@ -79,7 +79,7 @@ while read -d "" event; do
 	#ignored the intermediate files that are changing
 	if [[ $fileName == $watchingFile ]]; then
 		#grab error output
-		output="$($compilingCommand $2 2>&1)"
+		output="$($compilingCommand $absoluteFilePath 2>&1)"
 
 		if [[ $? = 0 ]]; then
 			#clear screen to maintain 
