@@ -4,6 +4,7 @@
 #example usage = cd into directory and run bash runOnSaveCompiled.sh . rust1.rs rustc rust1
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
+# todo compile *.c etc
 
 clearScreen=false
 delim=""
@@ -55,9 +56,15 @@ fi
 shift $((OPTIND-1))
 
 DIR_WATCHING="$1"
-file_to_watch="$2"
-compilingCommand="$3"
-outputFileName="$4"
+compilingCommand="$2"
+outputFileName="$3"
+
+shift 3;
+
+files_array="$@"
+
+file_to_watch="${files_array[0]}"
+
 executingCommand="$5"
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
@@ -109,7 +116,15 @@ while read -d "" event; do
 	watchingFile=`basename $absoluteFilePath`
 
 	#ignored the intermediate files that are changing
-	if [[ $fileName == $watchingFile ]]; then
+
+	for i in ${files_array[@]}; do
+		if [[ $fileName == $watchingFile ]]; then
+			changeOccured=true
+		fi
+
+	done
+
+	if [[ ! -z $changeOccured ]]; then
 		
 		if [[ $clearScreen = true ]]; then
 		    	clear
@@ -119,6 +134,11 @@ while read -d "" event; do
 
 		#grab error output
 		#the compiled output file is created in the pwd
+
+		
+
+		exit
+
 		output="$($compilingCommand $absoluteFilePath 2>&1)"
 		
 
