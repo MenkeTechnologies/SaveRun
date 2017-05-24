@@ -5,7 +5,7 @@
 brew install fswatch on macOs
 
 
-# For interpreted languages such as Perl, Ruby, Python etc.
+# For interpreted languages such as Perl, Ruby, Python
 Ruby:
 1. cd into directory
 2. bash runOnSaveInterpreted.sh . test.rb ruby
@@ -29,4 +29,10 @@ Elixir:
 Instructions for running scripts are also in comments at beginning of scripts.
 
 Scripts can also be run from anywhere, so do not have to cd into directory, just make sure paths, whether absolute or relative, are correct.
+
+options
+	-h help
+	-c clear screen
+	-d "delim" use custom delimiter
+	-c and -d may not be used together.
 
