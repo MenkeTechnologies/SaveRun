@@ -5,9 +5,13 @@
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 DIR_WATCHING="$1"
+file_to_watch="$2"
 compilingCommand="$3"
 outputFileName="$4"
 executingCommand="$5"
+
+
+
 
 usage(){
 #here doc for printing multiline
@@ -23,11 +27,28 @@ if [[ $# < 4 ]]; then
 	exit
 fi
 
-path=$DIR_WATCHING
 
-CONVERTPATH="$(pwd $path)/$(basename $path)"
 
-if [[ ! -d $CONVERTPATH ]]; then
+if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
+	#relative path
+	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
+else
+	#absolute path
+	CONVERTPATH="$DIR_WATCHING"
+fi
+
+
+ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
+
+
+absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
+
+if [[ ! -f "$absoluteFilePath" ]]; then
+	echo "File doesn't exist."
+	exit 1
+fi
+
+if [[ ! -d $ABSOLUTE_PATH ]]; then
 	echo "Path doesn't exist."
 	exit 1
 fi
@@ -37,14 +58,14 @@ if [[ ! -f $2 ]]; then
 	exit 1
 fi
 
-which "$command"
+which "$compilingCommand" >/dev/null
 
 if [[ $? != 0 ]]; then
 	echo "Command to run doesn't exist."
 	exit 1
 fi
 
-echo -e "Watching for changes of file \e[1m'$2'\e[0m in \e[1m'$CONVERTPATH'\e[0m"
+echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
 echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
 
