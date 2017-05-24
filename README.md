@@ -18,6 +18,12 @@ Node:
 1. cd into directory
 2. bash runOnSaveCompiled.sh . node week5.js *.js
 
+Go:
+
+1. cd into directory
+2. bash runOnSaveCompiled.sh . "go run" test.go
+
+
 usage:
 	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
 
