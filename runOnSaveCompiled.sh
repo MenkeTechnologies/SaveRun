@@ -87,8 +87,8 @@ fi
 shift $((OPTIND-1))
 
 DIR_WATCHING="$1"
-compilingCommand="$2"
-outputFileName="$3"
+outputFileName="$2"
+compilingCommand="$3"
 
 shift 3;
 
@@ -96,38 +96,29 @@ files_array="$@"
 
 file_to_watch="${files_array[0]}"
 
-if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
-	#relative path
-	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
-else
-	#absolute path
-	CONVERTPATH="$DIR_WATCHING"
-fi
-
-ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
-
-absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
+absoluteFilePath="$(createAbsolutePathFromFile ${file_to_watch[0]})"
+absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
 if [[ ! -f "$absoluteFilePath" ]]; then
-	echo "File doesn't exist."
+	echo "File doesn't exist." >&2
 	exit 1
 fi
 
-if [[ ! -d $ABSOLUTE_PATH ]]; then
-	echo "Path doesn't exist."
+if [[ ! -d $absoluteWatchingDirectory ]]; then
+	echo "Path doesn't exist." >&2
 	exit 1
 fi
 set $compilingCommand
 which "$1" >/dev/null
 
 if [[ $? != 0 ]]; then
-	echo "Command to run doesn't exist."
+	echo "Command to run doesn't exist." >&2
 	exit 1
 fi
 
 #confirmation output
-echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
+echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$absoluteWatchingDirectory'\e[0m"
 echo -e "Compiling with \e[1m'`which $1`'\e[0m"
 echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
 

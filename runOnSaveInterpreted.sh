@@ -87,18 +87,18 @@ absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
 if [[ ! -f "$absoluteFilePath" ]]; then
-	echo "Main file doesn't exist."
+	echo "Main file doesn't exist." >&2
 	exit 1
 fi
 
 if [[ ! -d $absoluteWatchingDirectory ]]; then
-	echo "Path doesn't exist."
+	echo "Path doesn't exist." >&2
 	exit 1
 fi
 
 which "$command" >/dev/null
 if [[ $? != 0 ]]; then
-	echo "Command to run doesn't exist."
+	echo "Command to run doesn't exist." >&2
 	exit 1
 fi
 
