@@ -7,6 +7,7 @@
 DIR_WATCHING="$1"
 compilingCommand="$3"
 outputFileName="$4"
+executingCommand="$5"
 
 usage(){
 #here doc for printing multiline
@@ -17,9 +18,23 @@ Endofmessage
 	printf "\E[0m"
 }
 
-if [[ $# < 3 ]]; then
+if [[ $# < 4 ]]; then
 	usage
 	exit
+fi
+
+path=$1
+
+CONVERTPATH="$(pwd $path)/$(basename $path)"
+
+echo -e "Watching for changes of file \e[1m'$2'\e[0m in \e[1m'$CONVERTPATH'\e[0m"
+echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
+echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
+
+if [[ ! -z $5 ]]; then
+	echo -e "with \e[1m'`which $executingCommand`'\e[0m"
+else
+	echo -e "as \e[1m'./$outputFileName'\e[0m"
 fi
 
 
