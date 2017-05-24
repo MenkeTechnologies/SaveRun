@@ -22,9 +22,7 @@ Rust:
 Elixir:
 1. cd into directory
 2. bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
-
-
-change M.main to Module name and main function as needed
+	change M.main to Module name and main function as needed
 
 # add quotes to filenames with spaces
 
