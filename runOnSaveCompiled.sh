@@ -5,6 +5,7 @@
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 # todo compile *.c etc
+# -m option
 
 clearScreen=false
 delim=""
@@ -17,8 +18,9 @@ usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
 usage:
-	script $1=dir_to_watch $2=file_to_watch $3=command_to_run $4=outputFileName $5=optional execution command
+	script $1=dir_to_watch $2=command_to_run $3=outputFileName $4=mainfile [$5=otherFilesToWatchAndCompile]
 	-h help
+	-m optional execution command
 	-c clear screen
 	-d "delim" use custom delimiter
 	-c and -d may not be used together.
@@ -70,6 +72,7 @@ do
 	  	h) usage >&2; hflag=true; break;;
 		d) delim="$OPTARG"; dflag=true;;
 	  	c) clearScreen=true; cflag=true;;
+		m) executingCommand="$OPTARG"; mflag=true;;
 	    *) usage >&2;;
 	esac
 done
@@ -96,7 +99,6 @@ files_array="$@"
 
 file_to_watch="${files_array[0]}"
 
-executingCommand="$5"
 
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path

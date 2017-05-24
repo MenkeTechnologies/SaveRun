@@ -22,18 +22,32 @@ usage:
 # For compiled languages such as C, Rust and Elixir
 C:
 1. cd into directory
-2. bash runOnSaveCompiled.sh . test.c gcc a.out
+2. bash runOnSaveCompiled.sh . a.out gcc main.c *.c
 
 Rust:
 1. cd into directory
-2. bash runOnSaveCompiled.sh . rust1.rs rustc rust1
+2. bash runOnSaveCompiled.sh . rust1 rustc rust1.rs 
 
 Elixir:
 1. cd into directory
-2. bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
+2. bash runOnSaveCompiled.sh -m 'elixir -e' . M.main elixirc untitled.ex 
 	change M.main to Module name and main function as needed
 
-# add quotes to filenames with spaces
+Java:
+1. cd into directory
+2. bash runOnSaveCompiled.sh -m java . sample.Main javac main.java *.java 
+	change M.main to Module name and main function as needed
+
+usage:
+	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
+	-h help
+	-m optional execution command
+	-c clear screen
+	-d "delim" use custom delimiter
+	-c and -d may not be used together.
+
+
+# add double quotes to filenames with spaces
 
 Instructions for running scripts are also in comments at beginning of scripts.
 
