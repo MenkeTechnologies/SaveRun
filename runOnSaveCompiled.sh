@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
-#example usage = cd into directory and run bash runOnSaveCompiled.sh . rust1.rs rustc rust1
+#example usage = cd into directory
+# bash runOnSaveCompiled.sh . rust1.rs rustc rust1
 #example usage for elixir 
-# cd into directory and run bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
-# todo compile *.c etc
+# cd into directory
+# bash runOnSaveCompiled.sh -m  'elixir -e' . M.main elixirc untitled.ex 
 
 clearScreen=false
 delim=""

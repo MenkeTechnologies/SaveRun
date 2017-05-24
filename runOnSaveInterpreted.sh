@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
-#example usage = bash "runOnSaveInterpreted.sh" . "test.rb" ruby
+#example usage = 
+# bash runOnSaveInterpreted.sh . ruby main.rb *.rb
+# bash runOnSaveInterpreted.sh . perl main.pl
 
 clearScreen=false
 delim=""
