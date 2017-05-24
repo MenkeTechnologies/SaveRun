@@ -5,7 +5,6 @@
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 # todo compile *.c etc
-# -m option
 
 clearScreen=false
 delim=""
@@ -18,7 +17,7 @@ usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
 usage:
-	script $1=dir_to_watch $2=command_to_run $3=outputFileName $4=mainfile [$5=otherFilesToWatchAndCompile]
+	script $1=dir_to_watch $2=outputFileName $3=compilingCommand $4=mainfile [$5=otherFilesToWatchAndCompile]
 	-h help
 	-m optional execution command
 	-c clear screen
