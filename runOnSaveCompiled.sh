@@ -10,9 +10,6 @@ compilingCommand="$3"
 outputFileName="$4"
 executingCommand="$5"
 
-
-
-
 usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
@@ -28,7 +25,6 @@ if [[ $# < 4 ]]; then
 fi
 
 
-
 if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
 	#relative path
 	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
@@ -37,12 +33,12 @@ else
 	CONVERTPATH="$DIR_WATCHING"
 fi
 
-
 ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
 
 
 absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
 
+#sanity checks
 if [[ ! -f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist."
 	exit 1
@@ -53,11 +49,6 @@ if [[ ! -d $ABSOLUTE_PATH ]]; then
 	exit 1
 fi
 
-if [[ ! -f $2 ]]; then
-	echo "File doesn't exist."
-	exit 1
-fi
-
 which "$compilingCommand" >/dev/null
 
 if [[ $? != 0 ]]; then
@@ -65,6 +56,7 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
+#confirmation output
 echo -e "Watching for changes of file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m"
 echo -en "Executing file \e[1m'$outputFileName'\e[0m ";
@@ -75,7 +67,7 @@ else
 	echo -e "as \e[1m'./$outputFileName'\e[0m"
 fi
 
-
+echo -e "Ctrl-C to terminate..."
 
 while read -d "" event; do
 	
@@ -108,10 +100,8 @@ while read -d "" event; do
 		    echo "$output"
 		fi
 			
-		# echo "match @ $fileName"
 	else
 		:
-		# echo "no match @ $fileName"
 	fi
 
 	
