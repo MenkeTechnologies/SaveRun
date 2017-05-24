@@ -8,11 +8,14 @@ delim=""
 
 trap 'echo;echo Bye `whoami`' INT
 
+
+
+
 usage(){
 #here doc for printing multiline
 	cat <<\Endofmessage
 usage:
-	script $1=dir_to_watch $2=file_to_watch $3=command_to_run
+	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
 	-h help
 	-c clear screen
 	-d "delim" use custom delimiter
@@ -22,9 +25,39 @@ Endofmessage
 	exit 1
 }
 
-if [[ $# < 3 ]]; then
+createAbsolutePathFromFile(){
+	local relativePath="$1"
+
+
+	if [[ ${relativePath:0:1} != '/' && ${relativePath:0:1} != '~' ]]; then
+	#relative path
+		CONVERTPATH="$(pwd)/$relativePath"
+		
+		ABSOLUTE_PATH=$(cd ${CONVERTPATH%/*} && pwd)/`basename $relativePath`
+	elif [[ ${relativePath:0:1} == '~' ]]; then
+
+		ABSOLUTE_PATH=$(cd ${CONVERTPATH%/*} && pwd)/`basename $relativePath`
+	else
+		#absolute path
+		ABSOLUTE_PATH="$1"
+	fi
+
+		echo $ABSOLUTE_PATH
+
+}
+
+createAbsolutePathFromDirectory(){
+	local relativePath="$1"
+
+
+	absPath=$(cd $relativePath && pwd)
+
+	echo "$absPath"
+
+}
+
+if (( $# < 3 )); then
 	usage >&2
-	
 fi
 
 optstring=hcd:
@@ -51,28 +84,20 @@ fi
 shift $((OPTIND-1))
 
 DIR_WATCHING="$1"
-file_to_watch="$2"
-command="$3"
+file_to_watch="$3"
+command="$2"
 
-if [[ ${DIR_WATCHING:0:1} != '/' ]]; then
-	#relative path
-	CONVERTPATH="$(pwd $DIR_WATCHING)/$(basename $DIR_WATCHING)"
-else
-	#absolute path
-	CONVERTPATH="$DIR_WATCHING"
-fi
 
-ABSOLUTE_PATH=$(cd ${CONVERTPATH} && pwd)
-
-absoluteFilePath=$ABSOLUTE_PATH/`basename $file_to_watch`
+absoluteFilePath="$(createAbsolutePathFromFile $file_to_watch)"
+absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
 if [[ ! -f "$absoluteFilePath" ]]; then
-	echo "File doesn't exist."
+	echo "Main file doesn't exist."
 	exit 1
 fi
 
-if [[ ! -d $ABSOLUTE_PATH ]]; then
+if [[ ! -d $absoluteWatchingDirectory ]]; then
 	echo "Path doesn't exist."
 	exit 1
 fi
@@ -83,19 +108,47 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
+shift 3;
+declare -a files_ary
+for i in "$@"; do
+	files_ary+=( $(createAbsolutePathFromFile "$i") )
+done
+
 #confirmation output
-echo -e "Watching for changes in file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$ABSOLUTE_PATH'\e[0m"
-echo -e "Interpreting with \e[1m'`which $command`'\e[0m"
+echo -e "Watching for changes in main file \e[1m'`basename $absoluteFilePath`'\e[0m in \e[1m'$absoluteWatchingDirectory'\e[0m"
+if (( ${#files_ary[@]} > 0 )); then
+	echo -n "Also watching for changes in "
+	for i in ${files_ary[@]}; do
+		if [[ "$i" != "$absoluteFilePath" ]]; then
+			echo -en "\e[1m`basename $i`\e[0m, "
+		fi
+	done
+	echo
+
+fi
+echo -e "Interpreting main file \e[1m'`basename $absoluteFilePath`'\e[0m with \e[1m'`which $command`'\e[0m"
 
 echo -e "Ctrl-C to terminate..."
 
 while read -d "" event; do
 	
-	fileName=`basename $event`
-	watchingFile=`basename $absoluteFilePath`
+	fileName="$event"
+	watchingFile="$absoluteFilePath"
+	go=false
+
+	for i in ${files_ary[@]}; do
+		if [[ "$i" == "$fileName" ]]; then
+			go=true
+		fi
+	done
+
+	if [[ "$watchingFile" == "$fileName" ]]; then
+		go=true
+	fi
+
 
 	#ignored the intermediate files that are changing
-	if [[ $fileName == $watchingFile ]]; then
+	if [[ "$go" == true ]]; then
 
 		if [[ $clearScreen = true ]]; then
 		    	clear
@@ -119,4 +172,4 @@ while read -d "" event; do
 
 	
 #ignore changes in hidden dirs such as .git
-done < <(fswatch -r -0 -E "$DIR_WATCHING" -e "/\.." )
+done < <(fswatch -r -0 -E "$absoluteWatchingDirectory" -e "/\.." )
