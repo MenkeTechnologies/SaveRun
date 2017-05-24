@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
-#example usage = cd into directory and run bash "$SCRIPTS/runOnSaveCompiled.sh" . "untitled.rs" "rustc"
+#example usage = cd into directory and run bash "$SCRIPTS/runOnSaveCompiled.sh" . "untitled.rs" "rustc" untitled
 #example usage for elixir 
 # cd into directory and run bash $SCRIPTS/runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
 DIR_WATCHING="$1"
