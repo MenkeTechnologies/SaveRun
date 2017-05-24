@@ -160,10 +160,12 @@ while read -d "" event; do
 		if [[ $clearScreen = true ]]; then
 		    	:
 		else
+			printf "\e[1m"
+			date
 			for i in $(seq `tput cols`); do
 				echo -ne "$delim"
 			done
-			echo
+			printf "\e[0m"
 		fi
 	else
 		#placeholder
