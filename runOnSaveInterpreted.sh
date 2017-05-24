@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #created by JAKOBMENKE --> Sat Jan 14 18:12:20 EST 2017 
 
-#example usage = bash "$SCRIPTS/watchServiceFSWatchRustCompile.sh" . "untitled.rs"
+#example usage = bash "runOnSaveInterpreted.sh" . "test.rb" ruby
 DIR_WATCHING="$1"
 file_to_watch="$2"
 command="$3"

@@ -6,15 +6,23 @@ brew install fswatch on macOs
 
 
 # For interpreted languages such as Perl, Ruby, Python etc.
-cd into directory
-bash runOnSaveInterpreted.sh . test.rb ruby
+Ruby:
+1. cd into directory
+2. bash runOnSaveInterpreted.sh . test.rb ruby
 
 # For compiled languages such as C, Rust and Elixir
-example usage = cd into directory
-bash runOnSaveCompiled.sh . untitled.rs rustc
+C:
+1. cd into directory
+2. bash runOnSaveCompiled.sh . test.c gcc a.out
 
-example usage for elixir = cd into directory
-bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
+Rust:
+1. cd into directory
+2. bash runOnSaveCompiled.sh . rust1.rs rustc rust1
+
+Elixir:
+1. cd into directory
+2. bash runOnSaveCompiled.sh . untitled.ex elixirc M.main 'elixir -e'
+
 
 change M.main to Module name and main function as needed
 
