@@ -24,7 +24,7 @@ Endofmessage
 }
 
 if [[ $# < 3 ]]; then
-	usage
+	usage >&2
 	
 fi
 
