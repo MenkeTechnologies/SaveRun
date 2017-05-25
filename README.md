@@ -1,5 +1,7 @@
 # SaveRunWatchService
 
+![Alt text](/screen1.png?raw=true)
+
 # dependency: fswatch
 
 brew install fswatch on macOs
@@ -74,3 +76,5 @@ usage:
 Instructions for running scripts are also in comments at beginning of scripts.
 
 Scripts can also be run from anywhere, so do not have to cd into directory, just make sure paths, whether absolute or relative, are correct.
+
+
