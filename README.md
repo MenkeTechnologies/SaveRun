@@ -1,4 +1,4 @@
-# RunOnSaveWatchService
+# SaveRunWatchService
 
 # dependency: fswatch
 
