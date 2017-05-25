@@ -25,7 +25,7 @@ usage:
 
 Endofmessage
 	printf "\E[0m"
-	exit 1
+	exit 0 
 }
 
 createAbsolutePathFromFile(){
