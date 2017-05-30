@@ -56,7 +56,7 @@ Java:
 1. cd into directory
 2. bash runOnSaveCompiled.sh -m java . sample.Main javac *.java 
 
-With Packages:
+With Fully Qualifed Package Name:
 1. cd into directory above packages
 2. bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main_Class_Name javac package_name/*.java
 
