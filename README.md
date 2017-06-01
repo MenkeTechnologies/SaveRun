@@ -10,7 +10,9 @@ brew install fswatch on macOs
 # For interpreted languages such as Perl, Ruby, Python
 Ruby:
 1. cd into directory
-2. bash runOnSaveInterpreted.sh . ruby test.rb *.rb
+```
+bash runOnSaveInterpreted.sh . ruby test.rb *.rb
+```
 
 Perl:
 1. cd into directory
