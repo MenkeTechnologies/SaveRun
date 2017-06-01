@@ -14,12 +14,14 @@ Ruby:
 
 Perl:
 1. cd into directory
-2. bash runOnSaveInterpreted.sh . perl test.pl
-
+```
+bash runOnSaveInterpreted.sh . perl test.pl
+```
 Node:
 1. cd into directory
-2. bash runOnSaveCompiled.sh . node week5.js *.js
-
+```
+bash runOnSaveCompiled.sh . node week5.js *.js
+```
 Go:
 1. cd into directory
 2. bash runOnSaveCompiled.sh . "go run" test.go
