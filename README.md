@@ -1,6 +1,6 @@
 # SaveRunWatchService
 
-![Alt text](/screen1.png?raw=true)
+![example run](/out.gif?raw=true)
 
 # dependency: fswatch
 
@@ -18,6 +18,11 @@ Make:
 ```
 bash runOnSaveInterpreted.sh . make *.c
 ```
+# bash runOnSaveInterpreted.sh . perl main.pl
+
+
+
+
 
 Perl:
 1. cd into directory
