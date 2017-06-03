@@ -1,6 +1,6 @@
 # SaveRunWatchService
 
-![example run](/out.gif?raw=true)
+![example run](/out.gif?raw=true) <!-- .element width=100%" -->
 
 # dependency: fswatch
 
