@@ -14,14 +14,14 @@ brew install saverun
 Ruby:
 1. cd into directory
 ```
-bash runOnSaveInterpreted.sh . ruby test.rb *.rb
+save-interpret-run . ruby test.rb *.rb
 ```
 Make:
 1. cd into directory
 ```
-bash runOnSaveInterpreted.sh . make *.c
+save-interpret-run . make *.c
 ```
-# bash runOnSaveInterpreted.sh . perl main.pl
+# save-interpret-run . perl main.pl
 
 
 
@@ -30,22 +30,22 @@ bash runOnSaveInterpreted.sh . make *.c
 Perl:
 1. cd into directory
 ```
-bash runOnSaveInterpreted.sh . perl test.pl
+save-interpret-run . perl test.pl
 ```
 Node:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh . node week5.js *.js
+save-compile-run . node week5.js *.js
 ```
 Go:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh . "go run" test.go
+save-compile-run . "go run" test.go
 ```
 Lua:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh . "lua" test.lua
+save-compile-run . "lua" test.lua
 ```
 usage:
 	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
@@ -61,29 +61,29 @@ usage:
 C:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh . a.out gcc *.c
+save-compile-run . a.out gcc *.c
 ```
 Rust:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh . rust1 rustc rust1.rs 
+save-compile-run . rust1 rustc rust1.rs 
 ```
 Elixir:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh -m 'elixir -e' . M.main elixirc *.ex 
+save-compile-run -m 'elixir -e' . M.main elixirc *.ex 
 ```
 change M.main to Module name and main function as needed
 
 Java:
 1. cd into directory
 ```
-bash runOnSaveCompiled.sh -m java . sample.Main javac *.java 
+save-compile-run -m java . sample.Main javac *.java 
 ```
 With Fully Qualifed Package Name:
 1. cd into directory above packages
 ```
-bash runOnSaveCompiled.sh -m 'java' package_name package_name.Main_Class_Name javac package_name/*.java
+save-compile-run -m 'java' package_name package_name.Main_Class_Name javac package_name/*.java
 ```
 
 usage:
