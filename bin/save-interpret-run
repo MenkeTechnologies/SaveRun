@@ -5,6 +5,9 @@
 # bash runOnSaveInterpreted.sh . ruby main.rb *.rb
 # bash runOnSaveInterpreted.sh . perl main.pl
 
+# bash runOnSaveInterpreted.sh . make *.c
+
+
 clearScreen=false
 delim=""
 
@@ -54,7 +57,11 @@ createAbsolutePathFromDirectory(){
 }
 
 if (( $# < 3 )); then
-	usage >&2
+
+	if [[ $2 != "make" ]]; then
+		usage >&2
+	fi
+
 fi
 
 optstring=hcd:
@@ -155,7 +162,11 @@ while read -d "" event; do
 		fi
 
 		#run the command
-		eval "$command $absoluteFilePath"
+		if [[ "$command" != "make" ]]; then
+			eval "$command $absoluteFilePath"
+		else
+			eval "$command"
+		fi
 
 		if [[ $clearScreen = true ]]; then
 		    	:
