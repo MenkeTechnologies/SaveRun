@@ -13,6 +13,11 @@ Ruby:
 ```
 bash runOnSaveInterpreted.sh . ruby test.rb *.rb
 ```
+Make:
+1. cd into directory
+```
+bash runOnSaveInterpreted.sh . make *.c
+```
 
 Perl:
 1. cd into directory
