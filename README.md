@@ -4,10 +4,11 @@
 
 # dependencies: fswatch and bash
 
-#Installation
+# Installation
+```
 brew tap menketechnologies/taps
 brew install saverun
-
+```
 
 # For interpreted languages such as Perl, Ruby, Python
 Ruby:
