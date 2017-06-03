@@ -2,9 +2,11 @@
 
 ![example run](/out.gif?raw=true) <!-- .element width=100%" -->
 
-# dependency: fswatch
+# dependencies: fswatch and bash
 
-brew install fswatch on macOs
+#Installation
+brew tap menketechnologies/taps
+brew install saverun
 
 
 # For interpreted languages such as Perl, Ruby, Python
