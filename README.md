@@ -47,6 +47,13 @@ Lua:
 ```
 save-compile-run . "lua" test.lua
 ```
+
+Applescript:
+1. cd into directory
+```
+save-interpret-run . osascript untitled.applescript
+```
+
 usage:
 	script $1=dir_to_watch $2=command_to_run $3=main_file [$4=files_to_watch]
 
