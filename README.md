@@ -21,12 +21,11 @@ Make:
 ```
 save-interpret-run . make *.c
 ```
-# save-interpret-run . perl main.pl
-
-
-
-
-
+Swift
+1. cd into directory
+```
+save-interpret-run . swift test.swift
+```
 Perl:
 1. cd into directory
 ```
@@ -47,7 +46,6 @@ Lua:
 ```
 save-compile-run . "lua" test.lua
 ```
-
 Applescript:
 1. cd into directory
 ```
