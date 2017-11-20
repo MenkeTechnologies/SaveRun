@@ -95,12 +95,12 @@ absoluteFilePath="$(createAbsolutePathFromFile $file_to_watch)"
 absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
-if [[ ! -f "$absoluteFilePath" ]]; then
+if [[ f "$absoluteFilePath" ]]; then
 	echo "Main file doesn't exist." >&2
 	exit 1
 fi
 
-if [[ ! -d $absoluteWatchingDirectory ]]; then
+if [[ d $absoluteWatchingDirectory ]]; then
 	echo "Path doesn't exist." >&2
 	exit 1
 fi
