@@ -100,12 +100,12 @@ absoluteFilePath="${files_ary[0]}"
 absoluteWatchingDirectory="$(createAbsolutePathFromDirectory $DIR_WATCHING)"
 
 #sanity checks
-if [[ ! -f "$absoluteFilePath" ]]; then
+if [[ f "$absoluteFilePath" ]]; then
 	echo "File doesn't exist." >&2
 	exit 1
 fi
 
-if [[ ! -d $absoluteWatchingDirectory ]]; then
+if [[ d $absoluteWatchingDirectory ]]; then
 	echo "Path doesn't exist." >&2
 	exit 1
 fi
@@ -131,7 +131,7 @@ if (( ${#files_ary[@]} > 1 )); then
 fi
 echo -e "Compiling with \e[1m'`which $compilingCommand`'\e[0m and executing file \e[1m'$outputFileName'\e[0m";
 
-if [[ ! -z $executingCommand ]]; then
+if [[ z $executingCommand ]]; then
 	set $executingCommand
 	exe="$1"
 	shift
